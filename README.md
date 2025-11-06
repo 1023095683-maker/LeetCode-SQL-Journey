@@ -1,104 +1,94 @@
-# \# LeetCode SQL Journey 🚀
+\# LeetCode SQL Journey
 
-# 
 
-# \[!\[GitHub](https://img.shields.io/badge/GitHub-Repository-blue?logo=github)](https://github.com/1023095683-maker/LeetCode-SQL-Journey)
 
-# \[!\[SQL](https://img.shields.io/badge/SQL-Practice-orange?logo=mysql)](https://leetcode.com/)
+\[!\[GitHub](https://img.shields.io/badge/GitHub-Repository-blue?logo=github)](https://github.com/1023095683-maker/LeetCode-SQL-Journey)
 
-# 
+\[!\[SQL](https://img.shields.io/badge/SQL-Practice-orange?logo=mysql)](https://leetcode.com/)
 
-# > My SQL learning journey through LeetCode practice - from beginner to expert
 
-# 
 
-# \## 📊 Progress Overview
+> Structured SQL learning through LeetCode challenges
 
-# 
 
-# | Difficulty | Total | Solved | Progress |
 
-# |------------|-------|--------|----------|
+\## 📊 Progress Overview
 
-# | Easy | 50 | 1 | 2% |
 
-# | Medium | 150 | 0 | 0% |
 
-# | Hard | 30 | 0 | 0% |
+| Difficulty | Total | Solved | Progress |
 
-# 
+|------------|-------|--------|----------|
 
-# \## 🎯 Current Focus
+| Easy | 50 | 1 | 2% |
 
-# 
+| Medium | 150 | 0 | 0% |
 
-# \### ✅ Completed
+| Hard | 30 | 0 | 0% |
 
-# \- \*\*175\*\*. Combine Two Tables - LEFT JOIN basics
 
-# 
 
-# \### 🔄 In Progress
+\## 🎯 Current Focus
 
-# \- Mastering JOIN operations
 
-# \- Learning window functions
 
-# 
+\### ✅ Completed
 
-# \## 📁 Project Structure
+\- \*\*175\*\*. Combine Two Tables - LEFT JOIN basics
 
-# 
 
-# ```
 
-# LeetCode-SQL-Journey/
+\### 🔄 In Progress
 
-# ├── Solutions/           # SQL solutions by difficulty
+\- Mastering JOIN operations
 
-# │   ├── Easy/           # Easy problems (0-30 min)
+\- Understanding query optimization
 
-# │   ├── Medium/         # Medium problems (30-60 min)  
 
-# │   └── Hard/           # Hard problems (60+ min)
 
-# ├── Study-Notes/        # Learning notes \& summaries
+\## 📁 Project Structure
 
-# ├── Progress/           # Progress tracking
 
-# └── README.md          # Project documentation
 
-# ```
+```
 
-# 
+LeetCode-SQL-Journey/
 
-# \## 🚀 Learning Path
+├── Solutions/
 
-# 
+│   ├── Easy/
 
-# 1\. \*\*Phase 1\*\*: Basic SQL (SELECT, JOIN, WHERE)
+│   │   └── 0175\_combine\_two\_tables.sql
 
-# 2\. \*\*Phase 2\*\*: Advanced Queries (Subqueries, CTEs)
+│   ├── Medium/
 
-# 3\. \*\*Phase 3\*\*: Window Functions \& Optimization
+│   └── Hard/
 
-# 4\. \*\*Phase 4\*\*: Complex Problem Solving
+├── Study-Notes/
 
-# 
+├── Progress/
 
-# \## 💡 Recent Updates
+└── README.md
 
-# 
+```
 
-# \- 🎉 \*\*2024-01-20\*\*: Project initialized with first solution!
 
-# \- 📚 \*\*2024-01-20\*\*: Solved 175. Combine Two Tables
 
-# 
+\## 📝 Recent Updates
 
-# ---
 
-# 
 
-# \*"The only way to learn SQL is to write SQL"\* - Keep coding! 💪
+\- 🚀 \*\*2024-11-06\*\*: Project initialized
+
+\- ✅ \*\*2024-11-06\*\*: First solution added (175. Combine Two Tables)
+
+\- 📚 \*\*2024-11-06\*\*: README documentation completed
+
+
+
+---
+
+
+
+\*Progress over perfection\* • \*Consistency over intensity\*
 
