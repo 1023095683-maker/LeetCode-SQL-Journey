@@ -78,11 +78,11 @@ LeetCode-SQL-Journey/
 
 
 
-\- 🚀 \*\*2024-11-06\*\*: Project initialized
+\- 🚀 \*\*2025-11-06\*\*: Project initialized
 
-\- ✅ \*\*2024-11-06\*\*: First solution added (175. Combine Two Tables)
+\- ✅ \*\*2025-11-06\*\*: First solution added (175. Combine Two Tables)
 
-\- 📚 \*\*2024-11-06\*\*: README documentation completed
+\- 📚 \*\*2025-11-06\*\*: README documentation completed
 
 
 
