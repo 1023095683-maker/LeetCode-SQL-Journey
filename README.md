@@ -20,7 +20,7 @@
 
 |------------|-------|--------|----------|
 
-| Easy | 50 | 1 | 2% |
+| Easy | 50 | 1 | 4% |
 
 | Medium | 150 | 0 | 0% |
 
@@ -34,7 +34,8 @@
 
 \### ✅ Completed
 
-\- \*\*175\*\*. Combine Two Tables - LEFT JOIN basics
+\- \*\*175\*\*. Combine Two Tables - LEFT JOIN basics（保留所有左表记录）
+\- \*\*181\*\*. Employees Earning More Than Their Managers - **自连接应用**（比较同行数据）
 
 
 
@@ -58,7 +59,8 @@ LeetCode-SQL-Journey/
 
 │   ├── Easy/
 
-│   │   └── 0175\_combine\_two\_tables.sql
+│   │   └── 0175_combine_two_tables.sql
+│   │   └── 0181_employees_earning_more_than_managers.sql
 
 │   ├── Medium/
 
