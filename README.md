@@ -1,3 +1,4 @@
+markdown
 # LeetCode SQL Journey
 
 [![GitHub](https://img.shields.io/badge/GitHub-Repository-blue?logo=github)](https://github.com/1023095683-maker/LeetCode-SQL-Journey)
@@ -9,15 +10,15 @@
 
 | Difficulty | Total | Solved | Progress |
 |------------|-------|--------|----------|
-| Easy | 50 | 11 | 22% |
-| Medium | 150 | 13 | 9% |
+| Easy | 50 | 12 | 24% |
+| Medium | 150 | 19 | 13% |
 | Hard | 30 | 2 | 7% |
 
 ## 🎯 Learning Path
 
 ### ✅ Completed
 
-**🔹 Easy (11题)**
+**🔹 Easy (12题)**
 - **175**. Combine Two Tables - LEFT JOIN基础
 - **181**. Employees Earning More Than Their Managers - 自连接应用
 - **182**. Duplicate Emails - 分组过滤
@@ -28,9 +29,10 @@
 - **577**. Employee Bonus - LEFT JOIN条件
 - **584**. Find Customer Referee - NULL值处理
 - **607**. Sales Person - NOT EXISTS应用
+- **610**. Triangle Judgement - CASE WHEN/三角形判断
 - **620**. Not Boring Movies - 多条件过滤
 
-**🔹 Medium (13题)**
+**🔹 Medium (19题)**
 - **176**. Second Highest Salary - LIMIT OFFSET
 - **177**. Nth Highest Salary - 自定义函数
 - **178**. Rank Scores - 窗口函数(DENSE_RANK)
@@ -40,9 +42,13 @@
 - **550**. Game Play Analysis IV - 首次登录/连续日期判断/CTE
 - **570**. Managers with at Least 5 Direct Reports - 自连接进阶
 - **585**. Investments in 2016 - 复杂条件聚合
+- **602**. Friend Requests II: Who Has the Most Friends - UNION ALL/分组聚合
 - **608**. Tree Node - 树结构判断/CASE WHEN/自连接
 - **619**. Biggest Single Number - GROUP BY/HAVING
 - **626**. Exchange Seats - CASE WHEN/奇偶判断
+- **1045**. Customers Who Bought All Products - HAVING/子查询/COUNT(DISTINCT)
+- **1321**. Restaurant Growth - 窗口函数/滑动窗口/日期范围
+- **1393**. Capital Gain/Loss - CASE WHEN/SUM/分组聚合
 
 **🔹 Hard (2题) 🎉**
 - **262**. Trips and Users - 取消率计算/复杂业务逻辑
@@ -68,6 +74,7 @@ LeetCode-SQL-Journey/
 │ │ ├── 0577_employee_bonus.sql
 │ │ ├── 0584_find_customer_referee.sql
 │ │ ├── 0607_sales_person.sql
+│ │ ├── 0610_triangle_judgement.sql
 │ │ └── 0620_not_boring_movies.sql
 │ ├── Medium/ # 中等难度
 │ │ ├── 0176_second_highest_salary.sql
@@ -79,9 +86,13 @@ LeetCode-SQL-Journey/
 │ │ ├── 0550_game_play_analysis_iv.sql
 │ │ ├── 0570_managers_with_5_direct_reports.sql
 │ │ ├── 0585_investments_in_2016.sql
+│ │ ├── 0602_friend_requests_ii.sql
 │ │ ├── 0608_tree_node.sql
 │ │ ├── 0619_biggest_single_number.sql
-│ │ └── 0626_exchange_seats.sql
+│ │ ├── 0626_exchange_seats.sql
+│ │ ├── 1045_customers_who_bought_all_products.sql
+│ │ ├── 1321_restaurant_growth.sql
+│ │ └── 1393_capital_gain_loss.sql
 │ └── Hard/ # 困难难度
 │ ├── 0262_trips_and_users.sql
 │ └── 0601_human_traffic_of_stadium.sql
@@ -181,16 +192,61 @@ FROM first_login f
 LEFT JOIN Activity a 
     ON f.player_id = a.player_id 
     AND a.event_date = DATE_ADD(f.first_date, INTERVAL 1 DAY);
+好友统计（602题）
+sql
+-- 关键思路：用UNION ALL合并双向好友关系
+WITH all_friends AS (
+    SELECT requester_id AS id FROM RequestAccepted
+    UNION ALL
+    SELECT accepter_id AS id FROM RequestAccepted
+)
+SELECT id, COUNT(*) AS num
+FROM all_friends
+GROUP BY id
+ORDER BY num DESC
+LIMIT 1;
+全量覆盖统计（1045题）
+sql
+-- 关键思路：HAVING + 子查询比较购买种类数
+SELECT customer_id
+FROM Customer
+GROUP BY customer_id
+HAVING COUNT(DISTINCT product_key) = (SELECT COUNT(*) FROM Product);
+滑动窗口平均（1321题）
+sql
+-- 关键思路：RANGE BETWEEN 实现7天滑动窗口
+WITH daily_amount AS (
+    SELECT visited_on, SUM(amount) AS amount
+    FROM Customer
+    GROUP BY visited_on
+)
+SELECT visited_on, amount,
+       ROUND(amount / 7, 2) AS average_amount
+FROM (
+    SELECT visited_on,
+           SUM(amount) OVER (ORDER BY visited_on 
+               RANGE BETWEEN INTERVAL 6 DAY PRECEDING AND CURRENT ROW) AS amount
+    FROM daily_amount
+) t
+WHERE DATEDIFF(visited_on, (SELECT MIN(visited_on) FROM daily_amount)) >= 6;
+资本损益计算（1393题）
+sql
+-- 关键思路：CASE WHEN 将Buy转为负数，Sell保持正数
+SELECT 
+    stock_name,
+    SUM(CASE WHEN operation = 'Buy' THEN -price ELSE price END) AS capital_gain_loss
+FROM Stocks
+GROUP BY stock_name;
 🔧 核心技术点
 JOIN操作：INNER JOIN, LEFT JOIN, 自连接
 
 数据过滤：WHERE, HAVING, 子查询
 
-窗口函数：DENSE_RANK, RANK, ROW_NUMBER, LAG, LEAD
+窗口函数：DENSE_RANK, RANK, ROW_NUMBER, LAG, LEAD, AVG OVER
 
 NULL值处理：IS NULL vs = NULL 的区别
 
-聚合函数：COUNT, MIN, MAX, GROUP BY, 分组统计
+聚合函数：COUNT, MIN, MAX, SUM, AVG, GROUP BY, 分组统计
 
 条件逻辑：CASE WHEN, IF函数，IN操作符，奇偶判断(MOD)
 
@@ -205,6 +261,12 @@ NULL值处理：IS NULL vs = NULL 的区别
 树结构判断：CASE WHEN + 自连接/子查询（608题）
 
 首次登录分析：MIN + DATE_ADD + 日期计算（550题）
+
+双向数据合并：UNION ALL + 分组聚合（602题）
+
+全量覆盖判断：HAVING + 子查询（1045题）
+
+滑动窗口：RANGE BETWEEN + 日期范围（1321题）
 
 📝 Progress Timeline
 🚀 2025-11-06: 项目初始化，完成175题
@@ -227,11 +289,19 @@ NULL值处理：IS NULL vs = NULL 的区别
 
 📝 2026-03-20: 新增550(中等)、608(中等)，累计达26题
 
+📝 2026-03-22: 新增602(中等)、626(中等)、610(简单)，累计达29题
+
+📝 2026-03-25: 新增1045(中等)、1321(中等)，累计达31题
+
+📝 2026-03-27: 新增1393(中等)，累计达32题
+
 🌟 Recent Activity
 bash
-# 最新提交记录 (2026-03-20)
-feat: add medium solution - 550(Game Play Analysis IV)
-feat: add medium solution - 608(Tree Node)
-docs: update README with 26 completed solutions
-代码改变思维，坚持成就卓越 • 挑战自我，突破极限
-• 更新于2026年3月20日
+# 最新提交记录 (2026-03-27)
+feat: add medium solution - 1393(Capital Gain/Loss)
+feat: add medium solution - 1321(Restaurant Growth)
+feat: add medium solution - 1045(Customers Who Bought All Products)
+feat: add medium solution - 602(Friend Requests II)
+feat: add easy solution - 610(Triangle Judgement)
+docs: update README with 32 completed solutions (12 easy, 19 medium, 2 hard)
+代码改变思维，坚持成就卓越 • 挑战自我，突破极限 • 更新于2026年3月27日
