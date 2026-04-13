@@ -1,4 +1,3 @@
-markdown
 # LeetCode SQL Journey
 
 [![GitHub](https://img.shields.io/badge/GitHub-Repository-blue?logo=github)](https://github.com/1023095683-maker/LeetCode-SQL-Journey)
@@ -10,15 +9,15 @@ markdown
 
 | Difficulty | Total | Solved | Progress |
 |------------|-------|--------|----------|
-| Easy | 50 | 12 | 24% |
-| Medium | 150 | 19 | 13% |
+| Easy | 50 | 14 | 28% |
+| Medium | 150 | 20 | 13% |
 | Hard | 30 | 2 | 7% |
 
 ## 🎯 Learning Path
 
 ### ✅ Completed
 
-**🔹 Easy (12题)**
+**🔹 Easy (14题)**
 - **175**. Combine Two Tables - LEFT JOIN基础
 - **181**. Employees Earning More Than Their Managers - 自连接应用
 - **182**. Duplicate Emails - 分组过滤
@@ -31,8 +30,10 @@ markdown
 - **607**. Sales Person - NOT EXISTS应用
 - **610**. Triangle Judgement - CASE WHEN/三角形判断
 - **620**. Not Boring Movies - 多条件过滤
+- **1141**. User Activity for the Past 30 Days - 日期范围统计/COUNT DISTINCT
+- **1407**. Top Travellers - LEFT JOIN/SUM/IFNULL
 
-**🔹 Medium (19题)**
+**🔹 Medium (20题)**
 - **176**. Second Highest Salary - LIMIT OFFSET
 - **177**. Nth Highest Salary - 自定义函数
 - **178**. Rank Scores - 窗口函数(DENSE_RANK)
@@ -47,6 +48,7 @@ markdown
 - **619**. Biggest Single Number - GROUP BY/HAVING
 - **626**. Exchange Seats - CASE WHEN/奇偶判断
 - **1045**. Customers Who Bought All Products - HAVING/子查询/COUNT(DISTINCT)
+- **1179**. Reformat Department Table - CASE WHEN/行转列
 - **1321**. Restaurant Growth - 窗口函数/滑动窗口/日期范围
 - **1393**. Capital Gain/Loss - CASE WHEN/SUM/分组聚合
 
@@ -75,7 +77,9 @@ LeetCode-SQL-Journey/
 │ │ ├── 0584_find_customer_referee.sql
 │ │ ├── 0607_sales_person.sql
 │ │ ├── 0610_triangle_judgement.sql
-│ │ └── 0620_not_boring_movies.sql
+│ │ ├── 0620_not_boring_movies.sql
+│ │ ├── 1141_user_activity_for_the_past_30_days.sql
+│ │ └── 1407_top_travellers.sql
 │ ├── Medium/ # 中等难度
 │ │ ├── 0176_second_highest_salary.sql
 │ │ ├── 0177_nth_highest_salary.sql
@@ -91,6 +95,7 @@ LeetCode-SQL-Journey/
 │ │ ├── 0619_biggest_single_number.sql
 │ │ ├── 0626_exchange_seats.sql
 │ │ ├── 1045_customers_who_bought_all_products.sql
+│ │ ├── 1179_reformat_department_table.sql
 │ │ ├── 1321_restaurant_growth.sql
 │ │ └── 1393_capital_gain_loss.sql
 │ └── Hard/ # 困难难度
@@ -237,6 +242,30 @@ SELECT
     SUM(CASE WHEN operation = 'Buy' THEN -price ELSE price END) AS capital_gain_loss
 FROM Stocks
 GROUP BY stock_name;
+行转列（1179题）
+sql
+-- 关键思路：CASE WHEN + MAX聚合将多行转为多列
+SELECT id,
+       MAX(CASE WHEN month = 'Jan' THEN revenue END) AS Jan_Revenue,
+       MAX(CASE WHEN month = 'Feb' THEN revenue END) AS Feb_Revenue,
+       ...
+FROM Department
+GROUP BY id;
+近30天活跃用户（1141题）
+sql
+-- 关键思路：BETWEEN + DATE_SUB 实现时间范围统计
+SELECT activity_date AS day, COUNT(DISTINCT user_id) AS active_users
+FROM Activity
+WHERE activity_date BETWEEN DATE_SUB('2019-07-27', INTERVAL 29 DAY) AND '2019-07-27'
+GROUP BY activity_date;
+旅行者排名（1407题）
+sql
+-- 关键思路：LEFT JOIN + IFNULL + SUM 处理无记录时显示0
+SELECT u.name, IFNULL(SUM(r.distance), 0) AS travelled_distance
+FROM Users u
+LEFT JOIN Rides r ON u.id = r.user_id
+GROUP BY u.id, u.name
+ORDER BY travelled_distance DESC, u.name;
 🔧 核心技术点
 JOIN操作：INNER JOIN, LEFT JOIN, 自连接
 
@@ -268,6 +297,10 @@ NULL值处理：IS NULL vs = NULL 的区别
 
 滑动窗口：RANGE BETWEEN + 日期范围（1321题）
 
+行转列：CASE WHEN + MAX/SUM聚合（1179题）
+
+时间范围统计：BETWEEN + DATE_SUB（1141题）
+
 📝 Progress Timeline
 🚀 2025-11-06: 项目初始化，完成175题
 
@@ -295,13 +328,15 @@ NULL值处理：IS NULL vs = NULL 的区别
 
 📝 2026-03-27: 新增1393(中等)，累计达32题
 
+📝 2026-04-06: 新增1179(中等)、1141(简单)，累计达34题
+
+📝 2026-04-09: 新增1407(简单)，累计达35题
+
 🌟 Recent Activity
 bash
-# 最新提交记录 (2026-03-27)
-feat: add medium solution - 1393(Capital Gain/Loss)
-feat: add medium solution - 1321(Restaurant Growth)
-feat: add medium solution - 1045(Customers Who Bought All Products)
-feat: add medium solution - 602(Friend Requests II)
-feat: add easy solution - 610(Triangle Judgement)
-docs: update README with 32 completed solutions (12 easy, 19 medium, 2 hard)
-代码改变思维，坚持成就卓越 • 挑战自我，突破极限 • 更新于2026年3月27日
+# 最新提交记录 (2026-04-09)
+feat: add easy solution - 1407(Top Travellers)
+feat: add easy solution - 1141(User Activity for the Past 30 Days)
+feat: add medium solution - 1179(Reformat Department Table)
+docs: update README with 35 completed solutions (14 easy, 20 medium, 2 hard)
+代码改变思维，坚持成就卓越 • 挑战自我，突破极限 • 更新于2026年4月9日
